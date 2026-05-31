@@ -3146,20 +3146,33 @@ Transcript:
         
         return final if final else smoothed
     
-    def add_hook(self, input_path: str, hook_text: str, output_path: str) -> float:
-        """Add hook scene at the beginning with multi-line yellow text (Fajar Sadboy style)"""
-        
-        # Report TTS character usage
-        self.report_tokens(0, 0, 0, len(hook_text))
-        
-        # Generate TTS audio
+    def _generate_tts_audio(self, text: str) -> str:
+        """Helper to generate TTS audio using gTTS (for native Indonesian) or OpenAI TTS as fallback"""
+        # Try gTTS first for native Indonesian pronunciation
+        try:
+            from gtts import gTTS
+            self.log("  🎙️ Generating native Indonesian TTS using gTTS...")
+            tts_file = tempfile.NamedTemporaryFile(suffix='.mp3', delete=False).name
+            tts = gTTS(text=text, lang='id')
+            tts.save(tts_file)
+            return tts_file
+        except ImportError:
+            self.log("  ⚠️ gTTS not installed. Falling back to OpenAI TTS...")
+        except Exception as e:
+            self.log(f"  ⚠️ gTTS generation failed: {e}. Falling back to OpenAI TTS...")
+
+        # Fallback to OpenAI TTS
         try:
             tts_response = self.tts_client.audio.speech.create(
                 model=self.tts_model,
                 voice="nova",
-                input=hook_text,
+                input=text,
                 speed=1.0
             )
+            tts_file = tempfile.NamedTemporaryFile(suffix='.mp3', delete=False).name
+            with open(tts_file, 'wb') as f:
+                f.write(tts_response.content)
+            return tts_file
         except APIConnectionError as e:
             self.log(f"  ❌ TTS API Connection Error: Could not connect to {self.tts_client.base_url}")
             raise Exception(f"TTS API connection failed!\n\nCould not connect to: {self.tts_client.base_url}\nError: {e}")
@@ -3180,10 +3193,15 @@ Transcript:
         except Exception as e:
             self.log(f"  ❌ TTS API Unexpected Error: {type(e).__name__}: {e}")
             raise Exception(f"TTS (Hook) generation failed!\n\nError: {type(e).__name__}: {e}\nModel: {self.tts_model}")
+
+    def add_hook(self, input_path: str, hook_text: str, output_path: str) -> float:
+        """Add hook scene at the beginning with multi-line yellow text (Fajar Sadboy style)"""
         
-        tts_file = tempfile.NamedTemporaryFile(suffix='.mp3', delete=False).name
-        with open(tts_file, 'wb') as f:
-            f.write(tts_response.content)
+        # Report TTS character usage
+        self.report_tokens(0, 0, 0, len(hook_text))
+        
+        # Generate TTS audio
+        tts_file = self._generate_tts_audio(hook_text)
         
         # Get TTS duration using ffprobe
         probe_cmd = [
@@ -4115,36 +4133,10 @@ Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
         # Generate TTS audio (10% progress)
         progress_callback(0.1)
         try:
-            tts_response = self.tts_client.audio.speech.create(
-                model=self.tts_model,
-                voice="nova",
-                input=hook_text,
-                speed=1.0
-            )
-        except APIConnectionError as e:
-            self.log(f"  ❌ TTS API Connection Error: Could not connect to {self.tts_client.base_url}")
-            raise Exception(f"TTS API connection failed!\n\nCould not connect to: {self.tts_client.base_url}\nError: {e}")
-        except RateLimitError as e:
-            self.log(f"  ❌ TTS API Rate Limit: {e}")
-            raise Exception(f"TTS API rate limit exceeded!\n\nPlease wait a moment and try again.\nDetails: {e}")
-        except APIStatusError as e:
-            self.log(f"  ❌ TTS API Error (HTTP {e.status_code}): {e.message}")
-            self.log(f"     Model: {self.tts_model}, Base URL: {self.tts_client.base_url}")
-            raise Exception(
-                f"TTS (Hook) API Error!\n\n"
-                f"Status: {e.status_code}\n"
-                f"Message: {e.message}\n"
-                f"Model: {self.tts_model}\n"
-                f"Base URL: {self.tts_client.base_url}\n\n"
-                f"Check your Hook Maker API settings."
-            )
+            tts_file = self._generate_tts_audio(hook_text)
         except Exception as e:
-            self.log(f"  ❌ TTS API Unexpected Error: {type(e).__name__}: {e}")
-            raise Exception(f"TTS (Hook) generation failed!\n\nError: {type(e).__name__}: {e}\nModel: {self.tts_model}")
-        
-        tts_file = tempfile.NamedTemporaryFile(suffix='.mp3', delete=False).name
-        with open(tts_file, 'wb') as f:
-            f.write(tts_response.content)
+            # Re-raise with user-friendly error message if helper fails (though helper has built-in fallbacks)
+            raise e
         
         progress_callback(0.2)
         
