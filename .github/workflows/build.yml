@@ -1,0 +1,54 @@
+name: Build Windows Executable (.exe)
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch: # Allows manual trigger from GitHub UI
+
+jobs:
+  build:
+    name: Build Windows Executable
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: 'pip'
+
+      - name: Install System Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install pyinstaller
+
+      - name: Verify Dependencies
+        run: |
+          pip show yt-dlp
+          pip show customtkinter
+
+      - name: Build Executable with PyInstaller
+        run: |
+          pyinstaller build.spec
+
+      - name: Check Build Output
+        run: |
+          ls dist/
+
+      - name: Compress/Zip Executable
+        run: |
+          powershell Compress-Archive -Path dist/YTShortClipper.exe -DestinationPath dist/YTShortClipper-Windows.zip
+
+      - name: Create Release and Upload Artifact
+        uses: softprops/action-gh-release@v2
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          files: |
+            dist/YTShortClipper-Windows.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

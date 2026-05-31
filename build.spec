@@ -13,12 +13,22 @@ opencv_data = collect_data_files('cv2')
 # Icon path
 icon_path = 'assets/icon.ico' if os.path.exists('assets/icon.ico') else None
 
+# Locate yt-dlp dynamically
+import shutil
+yt_dlp_path = shutil.which('yt-dlp') or shutil.which('yt-dlp.exe')
+if not yt_dlp_path:
+    scripts_dir = os.path.join(sys.prefix, 'Scripts')
+    if os.path.exists(scripts_dir):
+        yt_dlp_path = os.path.join(scripts_dir, 'yt-dlp.exe')
+    else:
+        yt_dlp_path = 'yt-dlp.exe'
+
 a = Analysis(
     ['app.py'],
     pathex=[],
     binaries=[
         # Bundle yt-dlp executable
-        (r'C:\Users\jipra\AppData\Local\Programs\Python\Python313\Scripts\yt-dlp.exe', '.'),
+        (yt_dlp_path, '.'),
         
         # Bundle Deno executable (required for yt-dlp --remote-components)
         # Download from: https://github.com/denoland/deno/releases
