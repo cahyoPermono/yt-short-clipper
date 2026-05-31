@@ -420,7 +420,7 @@ class YTShortClipperApp(ctk.CTk):
             fg_color=("#3B8ED0", "#1F6AA5"),
             hover_color=("#2E7AB8", "#16527D"),
             command=lambda: [
-                webbrowser.open("https://github.com/jipraks/yt-short-clipper/blob/master/GUIDE.md#3-setup-youtube-cookies"),
+                webbrowser.open("https://github.com/cahyoPermono/yt-short-clipper/blob/master/GUIDE.md"),
                 dialog.destroy()
             ])
         english_btn.pack(side="left", padx=5)
@@ -434,7 +434,7 @@ class YTShortClipperApp(ctk.CTk):
             fg_color=("#3B8ED0", "#1F6AA5"),
             hover_color=("#2E7AB8", "#16527D"),
             command=lambda: [
-                webbrowser.open("https://github.com/jipraks/yt-short-clipper/blob/master/PANDUAN.md#3-setup-cookies-youtube"),
+                webbrowser.open("https://github.com/cahyoPermono/yt-short-clipper/blob/master/PANDUAN.md"),
                 dialog.destroy()
             ])
         indonesian_btn.pack(side="left", padx=5)
@@ -1718,7 +1718,7 @@ class YTShortClipperApp(ctk.CTk):
     def open_github(self):
         """Open GitHub repository"""
         import webbrowser
-        webbrowser.open("https://github.com/jipraks/yt-short-clipper")
+        webbrowser.open("https://github.com/cahyoPermono/yt-short-clipper")
     
     def check_update_silent(self):
         """Check for updates silently on startup"""

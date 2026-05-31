@@ -327,7 +327,7 @@ class BrowsePage(ctk.CTkFrame):
     def open_github(self):
         """Open GitHub repository"""
         import webbrowser
-        webbrowser.open("https://github.com/jipraks/yt-short-clipper")
+        webbrowser.open("https://github.com/cahyoPermono/yt-short-clipper")
     
     def open_discord(self):
         """Open Discord server"""

@@ -65,15 +65,7 @@ and YouTube Shorts."""
         
         ctk.CTkButton(links_frame, text="GitHub Repository", height=40,
             fg_color=("#24292e", "#0d1117"), hover_color=("#2c3136", "#161b22"),
-            command=lambda: webbrowser.open("https://github.com/jipraks/yt-short-clipper")).pack(fill="x", pady=2)
-        
-        ctk.CTkButton(links_frame, text="@jipraks on Instagram", height=40,
-            fg_color=("#E4405F", "#C13584"), hover_color=("#F56040", "#E1306C"),
-            command=lambda: webbrowser.open("https://instagram.com/jipraks")).pack(fill="x", pady=2)
-        
-        ctk.CTkButton(links_frame, text="YouTube Channel", height=40,
-            fg_color=("#c4302b", "#FF0000"), hover_color=("#ff0000", "#CC0000"),
-            command=lambda: webbrowser.open("https://youtube.com/@jipraks")).pack(fill="x", pady=2)
+            command=lambda: webbrowser.open("https://github.com/cahyoPermono/yt-short-clipper")).pack(fill="x", pady=2)
         
         # Footer
         footer_frame = ctk.CTkFrame(self.content, fg_color="transparent")
