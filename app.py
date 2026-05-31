@@ -117,30 +117,13 @@ class YTShortClipperApp(ctk.CTk):
         # Show Terms of Service if not yet accepted
         if not self.config.get("tos_accepted", False):
             self.after(300, self._show_tos_dialog)
-        else:
-            # ToS already accepted in a previous session — show AutoKlip promo
-            # one time only.
-            self.after(500, self._maybe_show_autoklip_promo)
     
     def _show_tos_dialog(self):
         """Show Terms of Service dialog and block app usage until accepted."""
         def on_accept():
             self.config.set("tos_accepted", True)
-            # Queue the AutoKlip promo right after ToS acceptance
-            self.after(400, self._maybe_show_autoklip_promo)
         
         TermsOfServiceDialog(self, on_accept)
-    
-    def _maybe_show_autoklip_promo(self):
-        """Show AutoKlip promo modal exactly once per install."""
-        if self.config.get("autoklip_promo_shown", False):
-            return
-        try:
-            AutoKlipPromoDialog(self)
-        finally:
-            # Persist immediately so it never shows again, even if user
-            # closes the app without clicking the CTA.
-            self.config.set("autoklip_promo_shown", True)
     
     def set_app_icon(self):
         """Set window icon"""
@@ -612,9 +595,12 @@ class YTShortClipperApp(ctk.CTk):
         )
     
     def load_config(self):
-        api_key = self.config.get("api_key", "")
-        base_url = self.config.get("base_url", "https://api.openai.com/v1")
-        model = self.config.get("model", "")
+        ai_providers = self.config.get("ai_providers", {})
+        hf_config = ai_providers.get("highlight_finder", {})
+        
+        api_key = hf_config.get("api_key", self.config.get("api_key", ""))
+        base_url = hf_config.get("base_url", self.config.get("base_url", "https://api.openai.com/v1"))
+        model = hf_config.get("model", self.config.get("model", ""))
         
         if api_key:
             try:
