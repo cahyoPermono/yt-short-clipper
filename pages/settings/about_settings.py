@@ -1,4 +1,4 @@
-﻿"""
+"""
 About Settings Sub-Page
 """
 
@@ -26,7 +26,7 @@ class AboutSettingsSubPage(BaseSettingsSubPage):
         info_frame = ctk.CTkFrame(self.content, fg_color="transparent")
         info_frame.pack(fill="x", pady=(0, 15))
         
-        ctk.CTkLabel(info_frame, text="YT Short Clipper", 
+        ctk.CTkLabel(info_frame, text="VidatraClippers", 
             font=ctk.CTkFont(size=20, weight="bold")).pack()
         ctk.CTkLabel(info_frame, text=f"v{__version__}", 
             font=ctk.CTkFont(size=12), text_color="gray").pack(pady=(5, 0))
@@ -42,7 +42,7 @@ class AboutSettingsSubPage(BaseSettingsSubPage):
         desc_frame.pack(fill="x", pady=(0, 15))
         
         desc_text = """Automated YouTube to Short-Form Content Pipeline
-
+ 
 Transform long-form YouTube videos into engaging 
 short-form content for TikTok, Instagram Reels, 
 and YouTube Shorts."""
@@ -54,9 +54,9 @@ and YouTube Shorts."""
         credits_frame = ctk.CTkFrame(self.content, fg_color="transparent")
         credits_frame.pack(fill="x", pady=(0, 15))
         
-        ctk.CTkLabel(credits_frame, text="Made with coffee by", 
+        ctk.CTkLabel(credits_frame, text="Made with passion by", 
             font=ctk.CTkFont(size=11), text_color="gray").pack()
-        ctk.CTkLabel(credits_frame, text="Aji Prakoso", 
+        ctk.CTkLabel(credits_frame, text="Cahyo Permono", 
             font=ctk.CTkFont(size=13, weight="bold")).pack(pady=(5, 0))
         
         # Links

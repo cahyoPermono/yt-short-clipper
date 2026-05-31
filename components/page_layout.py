@@ -56,7 +56,7 @@ class PageHeader(ctk.CTkFrame):
             
             tagline_col = ctk.CTkFrame(right_frame, fg_color="transparent")
             tagline_col.pack(side="left")
-            ctk.CTkLabel(tagline_col, text="YT Short Clipper", font=ctk.CTkFont(size=14, weight="bold")).pack(anchor="w")
+            ctk.CTkLabel(tagline_col, text="VidatraClippers", font=ctk.CTkFont(size=14, weight="bold")).pack(anchor="w")
             ctk.CTkLabel(tagline_col, text="Turn long YouTube videos into viral shorts — Powered by AI", 
                 font=ctk.CTkFont(size=9), text_color="gray").pack(anchor="w")
             return
@@ -84,7 +84,7 @@ class PageHeader(ctk.CTkFrame):
         
         title_col = ctk.CTkFrame(title_frame, fg_color="transparent")
         title_col.pack(side="left")
-        ctk.CTkLabel(title_col, text="YT Short Clipper", font=ctk.CTkFont(size=20, weight="bold")).pack(anchor="w")
+        ctk.CTkLabel(title_col, text="VidatraClippers", font=ctk.CTkFont(size=20, weight="bold")).pack(anchor="w")
         ctk.CTkLabel(title_col, text="Turn long YouTube videos into viral shorts — Powered by AI", font=ctk.CTkFont(size=11), 
             text_color="gray").pack(anchor="w")
         
@@ -160,9 +160,9 @@ class PageFooter(ctk.CTkFrame):
         try:
             from version import __version__
             current_year = datetime.now().year
-            copyright_text = f"© {current_year} YT Short Clipper • v{__version__}"
+            copyright_text = f"© {current_year} VidatraClippers • v{__version__}"
         except:
-            copyright_text = "© 2026 YT Short Clipper"
+            copyright_text = "© 2026 VidatraClippers"
         
         ctk.CTkLabel(footer_content, text=copyright_text, 
             font=ctk.CTkFont(size=10), text_color="gray", anchor="w").pack(side="left")

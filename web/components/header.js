@@ -16,7 +16,7 @@ window.Components.Header = function () {
 
   const title = document.createElement('div');
   title.className = 'brand-title';
-  title.textContent = 'YT Short Clipper';
+  title.textContent = 'VidatraClippers';
 
   const sub = document.createElement('div');
   sub.className = 'brand-sub';

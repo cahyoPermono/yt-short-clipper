@@ -184,7 +184,7 @@ def main():
     app_dir = get_app_dir()
     bundle_dir = get_bundle_dir()
     html_path = Path(bundle_dir) / "web" / "index.html"
-    window = webview.create_window("YT Short Clipper", str(html_path), js_api=api)
+    window = webview.create_window("VidatraClippers", str(html_path), js_api=api)
     webview.start()
 
 

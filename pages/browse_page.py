@@ -74,7 +74,7 @@ class BrowsePage(ctk.CTkFrame):
         
         tagline_col = ctk.CTkFrame(right_header, fg_color="transparent")
         tagline_col.pack(side="left")
-        ctk.CTkLabel(tagline_col, text="YT Short Clipper", font=ctk.CTkFont(size=14, weight="bold")).pack(anchor="w")
+        ctk.CTkLabel(tagline_col, text="VidatraClippers", font=ctk.CTkFont(size=14, weight="bold")).pack(anchor="w")
         ctk.CTkLabel(tagline_col, text="Turn long YouTube videos into viral shorts — Powered by AI", 
             font=ctk.CTkFont(size=9), text_color="gray").pack(anchor="w")
         

@@ -78,7 +78,7 @@ class YTShortClipperApp(ctk.CTk):
         # Session data for highlight selection flow
         self.session_data = None  # Will store result from find_highlights_only
         
-        self.title("YT Short Clipper")
+        self.title("VidatraClippers")
         self.geometry("780x620")
         self.resizable(False, False)
         

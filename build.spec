@@ -80,7 +80,7 @@ exe = EXE(
     a.zipfiles,
     a.datas,
     [],
-    name='YTShortClipper',
+    name='VidatraClippers',
     debug=False,
     bootloader_ignore_signals=False,
     strip=False,
